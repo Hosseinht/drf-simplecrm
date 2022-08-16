@@ -2,11 +2,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
+from rest_framework.filters import OrderingFilter, SearchFilter
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-
 
 from .models import Category, Lead
 from .permissions import IsAdminOrOrganizer, IsAgent, IsOrganizer
@@ -29,8 +29,10 @@ def api_root(request, format=None):
 
 class LeadsListApiView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, IsAdminOrOrganizer]
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ["category", "agent", "organizer"]
+    search_fields = ["description"]
+    ordering_fields = ["category", "date_added"]
 
     def get_serializer_class(self):
         user = self.request.user
@@ -57,7 +59,6 @@ class LeadsListApiView(generics.ListCreateAPIView):
 
 
 class LeadDetailApiView(generics.RetrieveUpdateDestroyAPIView):
-
     serializer_class = LeadSerializer
     permission_classes = [IsAuthenticated, IsAdminOrOrganizer]
     queryset = Lead.objects.all()
