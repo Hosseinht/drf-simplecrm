@@ -38,7 +38,7 @@ class LeadsListApiView(generics.ListCreateAPIView):
     def get_serializer_class(self):
         user = self.request.user
 
-        if user.is_staff:
+        if user.is_superuser:
             return LeadAdminSerializer
         else:
             return LeadSerializer

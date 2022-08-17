@@ -9,7 +9,7 @@ class IsAdminOrOrganizer(permissions.BasePermission):
 
         if request.method in permissions.SAFE_METHODS:
             return True
-        if request.user and request.user.is_authenticated and request.user.is_staff:
+        if request.user and request.user.is_authenticated and request.user.is_superuser:
             return True
         if request.user and request.user.is_authenticated and request.user.is_organizer:
             return True

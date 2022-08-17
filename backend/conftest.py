@@ -24,18 +24,32 @@ def admin_user(api_client):
 
 
 @pytest.fixture()
-def agent_user(api_client):
-    return api_client.force_authenticate(user=User(is_agent=True))
+def create_agent_user(db, user_factory):
+    """Create 5 agents"""
+    return user_factory.create_batch(is_agent=True, size=5)
 
 
 @pytest.fixture()
-def organizer_user(api_client):
+def agent_user(api_client, create_agent_user):
+    """Authenticate with the created agent"""
+    return api_client.force_authenticate(user=create_agent_user[0])
 
-    return api_client.force_authenticate(user=User(is_organizer=True))
+
+@pytest.fixture()
+def create_organizer_user(db, user_factory):
+    """Create 5 organizers"""
+    return user_factory.create_batch(is_organizer=True, size=5)
+
+
+@pytest.fixture()
+def organizer_user(api_client, create_organizer_user):
+    """Authenticate with the created organizer"""
+    return api_client.force_authenticate(user=create_organizer_user[0])
 
 
 @pytest.fixture()
 def normal_user(api_client):
+    """Normal user is not an Agent or an Organizer. Nobody knows why does this user exist:)"""
     return api_client.force_authenticate(user=User())
 
 
@@ -50,17 +64,10 @@ def create_leads(db, leads_factory):
     create_lead = leads_factory.create_batch(size=2)
     return create_lead
 
-
 @pytest.fixture()
-def create_organizer_user(db, organizer_user_factory):
-    create_organizer = organizer_user_factory.create_batch(size=2)
-    return create_organizer
-
-
-@pytest.fixture()
-def create_agent_user(db, agent_factory):
-    create_agent = agent_factory.create()
-    return create_agent
+def create_(db, leads_factory):
+    create_lead = leads_factory.create()
+    return create_lead
 
 
 @pytest.fixture()

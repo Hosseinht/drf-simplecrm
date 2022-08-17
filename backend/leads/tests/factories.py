@@ -1,8 +1,5 @@
-
 import factory.fuzzy
-
 from faker import Faker
-
 
 from core.models import User
 from leads.models import Agent, Category, Lead, OrganizerUser
