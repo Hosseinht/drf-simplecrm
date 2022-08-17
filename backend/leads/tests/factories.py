@@ -34,7 +34,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Category
 
-    title = factory.fuzzy.FuzzyText(length=10)
+    title = factory.fuzzy.FuzzyText(length=2)
 
 
 class LeadsFactory(factory.django.DjangoModelFactory):

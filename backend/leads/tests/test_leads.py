@@ -65,19 +65,14 @@ class TestRetrieveLeads():
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    def test_normal_user_can_not_see_leads_return_400(self, api_client):
-        api_client.force_authenticate(user=User())
-
+    def test_normal_user_can_not_see_leads_return_400(self, api_client, normal_user):
         response = api_client.get(self.url)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_agent_can_see_leads_return_200(
-            self, api_client, create_lead, user_factory
+            self, api_client, create_lead, agent_user,
     ):
-        user = user_factory.create(is_agent=True)
-        api_client.force_authenticate(user=user)
-
         response = api_client.get(self.url)
 
         assert response.status_code == status.HTTP_200_OK
@@ -96,30 +91,29 @@ class TestRetrieveLeads():
             self,
             api_client,
             admin_user,
-            leads_factory,
+            create_lead
     ):
-        lead = leads_factory.create()
-        # api_client.force_authenticate(user=User(is_superuser=True))
+
         response = api_client.get(
-            f"/api/leads/{lead.id}/",
+            f"/api/leads/{create_lead.id}/",
         )
 
         assert response.status_code == status.HTTP_200_OK
 
         # assert response.data == serializer.data
         assert response.data == {
-            "id": lead.id,
-            "first_name": lead.first_name,
-            "last_name": lead.last_name,
-            "age": lead.age,
-            "organizer": lead.organizer.id,
-            "agent": lead.agent.id,
-            "category": lead.category.id,
-            "description": lead.description,
-            "date_added": lead.date_added,
-            "phone_number": lead.phone_number,
-            "email": lead.email,
-            "converted_date": lead.converted_date,
+            "id": create_lead.id,
+            "first_name": create_lead.first_name,
+            "last_name": create_lead.last_name,
+            "age": create_lead.age,
+            "organizer": create_lead.organizer.id,
+            "agent": create_lead.agent.id,
+            "category": create_lead.category.id,
+            "description": create_lead.description,
+            "date_added": create_lead.date_added,
+            "phone_number": create_lead.phone_number,
+            "email": create_lead.email,
+            "converted_date": create_lead.converted_date,
         }
         #
 
@@ -303,7 +297,7 @@ class TestDeleteLeads:
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
-    def test_organizer_can_delete_leads_return_200(
+    def test_organizer_can_delete_leads_return_204(
             self, api_client, create_organizer_user, leads_factory, payload
     ):
         """Organizer can see, update and delete the leads. Organizer assign leads to Agents"""
@@ -328,7 +322,7 @@ class TestDeleteLeads:
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
-    def test_admin_can_delete_leads_return_200(
+    def test_admin_can_delete_leads_return_204(
             self, api_client, admin_user, create_lead, payload
     ):
         """Admin can access to everything"""

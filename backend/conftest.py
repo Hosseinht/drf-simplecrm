@@ -3,12 +3,13 @@ from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 from pytest_factoryboy import register
 
-from leads.tests.factories import LeadsFactory, UserFactory, OrganizerUserFactory, AgentFactory
+from leads.tests.factories import LeadsFactory, UserFactory, OrganizerUserFactory, AgentFactory, CategoryFactory
 
 register(LeadsFactory)
 register(UserFactory)
 register(OrganizerUserFactory)
 register(AgentFactory)
+register(CategoryFactory)
 
 User = get_user_model()
 
@@ -64,9 +65,10 @@ def create_leads(db, leads_factory):
     create_lead = leads_factory.create_batch(size=2)
     return create_lead
 
+
 @pytest.fixture()
-def create_(db, leads_factory):
-    create_lead = leads_factory.create()
+def create_category(db, category_factory):
+    create_lead = category_factory.create()
     return create_lead
 
 
