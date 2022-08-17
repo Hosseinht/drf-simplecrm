@@ -7,6 +7,7 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.viewsets import ModelViewSet
 
 from .models import Category, Lead
 from .permissions import IsAdminOrOrganizer, IsAgent, IsOrganizer
@@ -14,17 +15,17 @@ from .serializers import (CategorySerializer, LeadAdminSerializer,
                           LeadSerializer)
 
 
-@api_view(["GET"])
-def api_root(request, format=None):
-    """
-    Leads nad Categories endpoints for browsable api
-    """
-    return Response(
-        {
-            "leads": reverse("leads", request=request, format=format),
-            "categories": reverse("categories", request=request, format=format),
-        }
-    )
+# @api_view(["GET"])
+# def api_root(request, format=None):
+#     """
+#     Leads nad Categories endpoints for browsable api
+#     """
+#     return Response(
+#         {
+#             "leads": reverse("leads", request=request, format=format),
+#             "categories": reverse("categories", request=request, format=format),
+#         }
+#     )
 
 
 class LeadsListApiView(generics.ListCreateAPIView):
@@ -64,9 +65,6 @@ class LeadDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Lead.objects.all()
 
     def get_permissions(self):
-        user = self.request.user
-        print(user)
-        print(self.request.method)
 
         if self.request.method in ["PUT", "DELETE"]:
             return [IsAuthenticated(), IsOrganizer()]
@@ -74,13 +72,19 @@ class LeadDetailApiView(generics.RetrieveUpdateDestroyAPIView):
             return [IsAuthenticated(), IsAgent()]
 
 
-class CategoryListView(generics.ListCreateAPIView):
-    serializer_class = CategorySerializer
-    permission_classes = [IsAuthenticated, IsAdminOrOrganizer]
-    queryset = Category.objects.all()
+# class CategoryListView(generics.ListCreateAPIView):
+#     serializer_class = CategorySerializer
+#     permission_classes = [IsAuthenticated, IsAdminOrOrganizer]
+#     queryset = Category.objects.all()
+#
+#
+# class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     serializer_class = CategorySerializer
+#     permission_classes = [IsAuthenticated, IsAdminOrOrganizer]
+#     queryset = Category.objects.all()
 
 
-class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated, IsAdminOrOrganizer]
     queryset = Category.objects.all()
