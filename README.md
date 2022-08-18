@@ -1,4 +1,4 @@
-![Django Rest Framework](backend/static/django_rest_framework.png)
+![Django Rest Framework](backend/django_rest_framework.png)
 
 **A simple crm that is built with Django REST framework**
 
