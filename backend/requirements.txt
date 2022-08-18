@@ -59,3 +59,4 @@ typing-extensions==4.3.0
 tzdata==2022.1
 uritemplate==4.1.1
 urllib3==1.26.11
+gunicorn

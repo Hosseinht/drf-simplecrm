@@ -45,7 +45,7 @@ class TestCreateLeads:
                 "email": "email@email.com",
             },
         )
-
+        print(response.data)
         assert response.status_code == status.HTTP_201_CREATED
         assert response.data["id"] > 0
 

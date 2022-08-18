@@ -86,6 +86,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="object.clean" />
+          <option value="str.strftime" />
         </list>
       </option>
     </inspection_tool>

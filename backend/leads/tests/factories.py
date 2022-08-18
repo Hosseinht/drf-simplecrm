@@ -1,5 +1,8 @@
+
 import factory.fuzzy
+
 from faker import Faker
+
 
 from core.models import User
 from leads.models import Agent, Category, Lead, OrganizerUser
@@ -34,7 +37,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Category
 
-    title = factory.fuzzy.FuzzyText(length=2)
+    title = factory.fuzzy.FuzzyText(length=10)
 
 
 class LeadsFactory(factory.django.DjangoModelFactory):
