@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_filters',
     'djoser',
     "debug_toolbar",
+    'drf_yasg',
 
     # Local
     'core',

@@ -3,6 +3,8 @@ from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
+from rest_framework_xml.renderers import XMLRenderer
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Category, Lead
@@ -30,6 +32,7 @@ class LeadsListApiView(generics.ListCreateAPIView):
     filterset_fields = ["category", "agent", "organizer"]
     search_fields = ["description"]
     ordering_fields = ["category", "date_added"]
+    renderer_classes = [JSONRenderer, XMLRenderer]
 
     def get_serializer_class(self):
         user = self.request.user
