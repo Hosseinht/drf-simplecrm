@@ -64,13 +64,5 @@ docker-compose up -d --build
 ```
 
 ## Endpoints
-http://127.0.0.1/api/leads/
 
-http://127.0.0.1/api/categories/
-
-**Djoser endpoints for authentication**
-
-[Djoser Endpoints](https://djoser.readthedocs.io/en/latest/getting_started.html)
-
-http://127.0.0.1/api/auth/
-
+To see the endpoints go to http://127.0.0.1:8000/ or http://127.0.0.1:8000/redoc/
